@@ -40,15 +40,24 @@ var server = http.createServer(app)
 //Start the web socket server
 var io = socketio.listen(server);
 
-var users = {}
+var users = []
 
 //If the client just connected
 io.on('connection', function(socket) {
 	// console.log(socket)
 	console.log('a user connected')
-	socket.on('message', function(msg){
-		console.log(msg)
-		io.emit('message', msg)
+
+	socket.on('send', function(data){
+		console.log(data)
+		io.emit('update', socket.username, data)
+	})
+
+	socket.on('adduser', function(username){
+		socket.username = username
+		users.push(username)
+		socket.emit('update', 'Server', 'you have connected')
+		socket.broadcast.emit('update', 'Server', username + ' has connected')
+		io.sockets.emit('updateusers', users)
 	})
 
 });

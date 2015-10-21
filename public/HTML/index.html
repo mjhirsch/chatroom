@@ -17,7 +17,7 @@
 				<form ng-submit="usernameSubmit()">
 				<input class = "username-input" placeholder="enter a username" ng-model="user.name">
 				</input>
-				<button class="submit"> submit </button>
+				<button ng-disabled='disableSubmit' class="submit"> submit </button>
 				</form>
 			</div>
 			<div class = "row">
@@ -26,7 +26,9 @@
 					{{message}}
 					</div>
 				</div>
-
+				<div class = "users col-xs-2">
+					<div ng-repeat="user in users track by $index">{{user}}</div>
+				</div>
 			<div class = "row">
 				<form ng-submit="chatMessage()">
 					<input class = "message-input form-control col-xs-12" type = "text" placeholder="Chat it up!" ng-model="chatData.message">
